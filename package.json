@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/thirty4/flowchart/issues"
   },
-  "homepage": "https://github.com/thirty4/flowchart#readme"
+  "homepage": "https://github.com/thirty4/flowchart#readme",
+  "dependencies": {
+    "mxgraph": "^3.7.4"
+  }
 }
