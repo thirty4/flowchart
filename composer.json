@@ -1,0 +1,32 @@
+{
+    "name": "thirty4/flowchart",
+    "description": "flowchart editor",
+    "type": "metapackage",
+    "authors": [
+        {
+            "name": "thirty4",
+            "email": "34@rul.es"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "simplehtmldom": "^1.5"
+    }
+    ,"repositories":
+    [
+        {
+            "type": "package",
+            "package":
+            {
+                "name": "simplehtmldom",
+                "version": "1.5",
+                "source":
+                {
+                    "url": "https://svn.code.sf.net/p/simplehtmldom/code simplehtmldom-code",
+                    "type": "svn",
+                    "reference": "trunk/"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "flowchart",
+  "version": "0.0.1",
+  "description": "flowchart editor",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thirty4/flowchart.git"
+  },
+  "author": "thirty4",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thirty4/flowchart/issues"
+  },
+  "homepage": "https://github.com/thirty4/flowchart#readme"
+}
