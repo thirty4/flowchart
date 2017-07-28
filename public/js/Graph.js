@@ -3473,7 +3473,7 @@ mxStencilRegistry.getBasenameForStencil = function(name)
 };
 
 // Loads the given stencil set
-mxStencilRegistry.loadStencilSet = function(stencilFile, postStencilLoad, force, async)
+mxStencilRegistry.loadStencilSet = function(stencilFile, postStencilLoad, force, async, fnThen)
 {
 	force = (force != null) ? force : false;
 	
@@ -3503,8 +3503,12 @@ mxStencilRegistry.loadStencilSet = function(stencilFile, postStencilLoad, force,
 								mxStencilRegistry.parseStencilSet(xmlDoc.documentElement, postStencilLoad, install);
 							}
 						}
+
+                        if( fnThen )fnThen();
+                        fnThen = null;
+
 					}));
-				
+
 					return;
 				}
 				else
@@ -3513,6 +3517,9 @@ mxStencilRegistry.loadStencilSet = function(stencilFile, postStencilLoad, force,
 					xmlDoc = req.getXml();
 					mxStencilRegistry.packages[stencilFile] = xmlDoc;
 					install = true;
+                    if( fnThen )fnThen();
+                    fnThen = null;
+
 				}
 			}
 			catch (e)
@@ -3529,6 +3536,8 @@ mxStencilRegistry.loadStencilSet = function(stencilFile, postStencilLoad, force,
 			mxStencilRegistry.parseStencilSet(xmlDoc.documentElement, postStencilLoad, install);
 		}
 	}
+
+    if( fnThen )fnThen();
 };
 
 // Takes array of strings

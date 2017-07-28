@@ -1,4 +1,6 @@
 # Resources from graph.properties
+Flowchart=Flowchart
+myFlowChartPalette=My custom palette
 alreadyConnected=Nodes already connected
 cancel=Cancel
 close=Close

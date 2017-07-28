@@ -90,7 +90,7 @@ Sidebar.prototype.init = function()
 {
 	var dir = STENCIL_PATH;
 	
-	this.addSearchPalette(true);
+	/*this.addSearchPalette(true);
 	this.addGeneralPalette(true);
 	this.addMiscPalette(false);
 	this.addAdvancedPalette(false);
@@ -109,6 +109,42 @@ Sidebar.prototype.init = function()
 		 'Worker1', 'Soldier1', 'Doctor1', 'Tech1', 'Security1', 'Telesales1'], null,
 		 {'Wireless_Router_N': 'wireless router switch wap wifi access point wlan',
 		  'Router_Icon': 'router switch'});
+
+
+
+
+
+    this.addStencilPalette
+    (
+        'flowchart'
+        , 'Flowchart'
+        , dir + '/flowchart.xml'
+        ,{
+            style: ';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2'
+            ,ignore: null
+            ,onInit: null
+            ,scale: null
+            ,tags: null
+            ,customFns: null
+            ,expand: true
+        }
+    );
+*/
+    this.addStencilPalette
+	(
+		'myPalette'
+		, 'myFlowChartPalette'
+		, dir + '/myPalette.xml'
+		,{
+            style: ';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2'
+    		,ignore: null
+			,onInit: null
+			,scale: null
+			,tags: null
+			,customFns: null
+			,expand: true
+		}
+	);
 };
 
 /**
@@ -3243,6 +3279,7 @@ Sidebar.prototype.addPalette = function(id, title, expanded, onInit)
 		}
 	}));
 
+
 	if (expanded)
 	{
 		onInit(div);
@@ -3407,8 +3444,16 @@ Sidebar.prototype.getTagsForStencil = function(packageName, stencilName, moreTag
 /**
  * Adds the given stencil palette.
  */
-Sidebar.prototype.addStencilPalette = function(id, title, stencilFile, style, ignore, onInit, scale, tags, customFns)
+Sidebar.prototype.addStencilPalette = function(id, title, stencilFile, options )
 {
+    var style = options.style;
+    var ignore = options.ignore;
+    var onInit = options.onInit;
+    var scale = options.scale;
+    var tags = options.tags;
+    var customFns = options.customFns || null;
+    var expand = options.expand || false;
+
 	scale = (scale != null) ? scale : 1;
 	
 	if (this.addStencilsToIndex)
@@ -3424,29 +3469,39 @@ Sidebar.prototype.addStencilPalette = function(id, title, stencilFile, style, ig
 			}
 		}
 
-		mxStencilRegistry.loadStencilSet(stencilFile, mxUtils.bind(this, function(packageName, stencilName, displayName, w, h)
-		{
-			if (ignore == null || mxUtils.indexOf(ignore, stencilName) < 0)
+		mxStencilRegistry.loadStencilSet
+		(
+			stencilFile
+			,mxUtils.bind( this, function( packageName, stencilName, displayName, w, h )
 			{
-				var tmp = this.getTagsForStencil(packageName, stencilName);
-				var tmpTags = (tags != null) ? tags[stencilName] : null;
-
-				if (tmpTags != null)
+				if (ignore == null || mxUtils.indexOf(ignore, stencilName) < 0)
 				{
-					tmp.push(tmpTags);
-				}
-				
-				fns.push(this.createVertexTemplateEntry('shape=' + packageName + stencilName.toLowerCase() + style,
-					Math.round(w * scale), Math.round(h * scale), '', stencilName.replace(/_/g, ' '), null, null,
-					this.filterTags(tmp.join(' '))));
-			}
-		}), true, true);
+					var tmp = this.getTagsForStencil(packageName, stencilName);
+					var tmpTags = (tags != null) ? tags[stencilName] : null;
 
-		this.addPaletteFunctions(id, title, false, fns);
+					if (tmpTags != null)
+					{
+						tmp.push(tmpTags);
+					}
+
+					fns.push(this.createVertexTemplateEntry('shape=' + packageName + stencilName.toLowerCase() + style,
+						Math.round(w * scale), Math.round(h * scale), '', stencilName.replace(/_/g, ' '), null, null,
+						this.filterTags(tmp.join(' '))));
+				}
+			})
+			,true
+			,true
+			,mxUtils.bind( this, function()
+			{
+				this.addPaletteFunctions( id, title, expand, fns );
+			})
+		);
+
+
 	}
 	else
 	{
-		this.addPalette(id, title, false, mxUtils.bind(this, function(content)
+		this.addPalette(id, mxResources.get(title), false, mxUtils.bind(this, function(content)
 	    {
 			if (style == null)
 			{
@@ -3470,8 +3525,18 @@ Sidebar.prototype.addStencilPalette = function(id, title, stencilFile, style, ig
 			{
 				if (ignore == null || mxUtils.indexOf(ignore, stencilName) < 0)
 				{
-					content.appendChild(this.createVertexTemplate('shape=' + packageName + stencilName.toLowerCase() + style,
-						Math.round(w * scale), Math.round(h * scale), '', stencilName.replace(/_/g, ' '), true));
+					content.appendChild
+					(
+						this.createVertexTemplate
+						(
+							'shape=' + packageName + stencilName.toLowerCase() + style
+							, Math.round(w * scale)
+							, Math.round(h * scale)
+							, ''
+							, stencilName.replace(/_/g, ' ')
+							, true
+						)
+					);
 				}
 			}), true);
 	    }));
